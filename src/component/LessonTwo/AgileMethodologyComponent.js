@@ -92,7 +92,7 @@ const AgileMethodologyComponent = () => {
         <ul className="list-disc pl-6 mt-2">
           <li>Continuous Delivery: Since there are no Sprints, work is delivered continuously.</li>
           <li>Flexibility: Work can be reprioritized as needed.</li>
-          <li>Efficient Workflow: Helps prevent overloading the team with too many tasks at once.</li>
+          <li>Efficient Workflows: Helps prevent overloading the team with too many tasks at once.</li>
         </ul>
       </div>
 <ProductBacklog/>
