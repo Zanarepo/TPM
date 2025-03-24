@@ -1,25 +1,27 @@
 // HomePage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
 const HomePage = () => {
-  const [setMentees] = useState([]);
+  const [, setMentees] = useState([]); // Fix: Include `mentees` state
 
-  // Fetch all mentees
-  const fetchMentees = async () => {
+  const fetchMentees = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/mentees');
+      const response = await axios.get("http://localhost:5000/api/mentees");
       setMentees(response.data.mentees);
     } catch (error) {
       console.error("Error fetching mentees:", error);
     }
-  };
+  }, [setMentees]); // Fix: Include `setMentees` in dependency array
 
   useEffect(() => {
     fetchMentees();
-  }, []);
+  }, [fetchMentees]);
+  useEffect(() => {
+    fetchMentees();
+  }, [fetchMentees]); // Now useEffect has a stable function dependency
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center p-4">
