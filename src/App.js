@@ -3,7 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MenteeList from './component/MenteeList';
 import MenteeForm from './component/MenteeForm';
-import HomePage from './component/HomePage'; // Import HomePage
+import HomePage from './component/HomePage';
+import TPM from './component/TPM'; // Import HomePage
 import Masterclass from './component/Masterclass';
 //import Dashboard from './component/Dashboard';
 import Git from './component/Version Control/Github'
@@ -40,6 +41,7 @@ const App = () => {
       <Routes>
         {/* Route to HomePage */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/tpm" element={<TPM />} />
 
         {/* Route to show MenteeForm */}
         <Route path="/add-mentee" element={<MenteeForm />} />
