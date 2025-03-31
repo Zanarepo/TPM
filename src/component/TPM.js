@@ -1,68 +1,115 @@
-// HomePage.js
-import React, { useState, useEffect, useCallback} from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Dashboard from './Dashboard';
+import React, { useState, useEffect } from 'react';
+import { FaDatabase, FaCode, FaLaptopCode, FaNetworkWired } from 'react-icons/fa';
+import { toast } from 'react-toastify';  // Import the toast function
+import DatabaseSection from './DatabaseSection';
+import FrontendSection from './FrontendSection';
+import BackendSection from './BackendSection';
+import APISection from './APISection';
+import QASection from './QASection';
+import Porters from './Porters';
+import SystemArchitectureSection from './SystemArchitectureSection';
+import BrainstormingTechniques from './BrainstormingTechniques'
 
-const HomePage = () => {
-  const [, setMentees] = useState([]); // Fix: Include `mentees` state
+const Dashboard = () => {
+  // State for toggling sections
+  const [activeSection, setActiveSection] = useState('Frontend');
 
-  const fetchMentees = useCallback(async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/mentees");
-      setMentees(response.data.mentees);
-    } catch (error) {
-      console.error("Error fetching mentees:", error);
-    }
-  }, [setMentees]); // Fix: Include `setMentees` in dependency array
+  // Card data
+  const cardData = [
+    {
+      icon: <FaLaptopCode className="text-4xl text-blue-600" />,
+      title: 'Frontend (FE)',
+      description:
+        'The frontend is what users see and interact with. Product managers need to understand UI/UX basics, user flows, and how frontend development impacts user experience.',
+      sectionName: 'Frontend'
+    },
 
+    {
+      icon: <FaCode className="text-4xl text-green-600" />,
+      title: 'Backend (BE)',
+      description:
+        'The backend handles business logic, data processing, and server-side operations. Understanding backend concepts helps product managers define product features realistically.',
+      sectionName: 'Backend'
+    },
+    {
+      icon: <FaNetworkWired className="text-4xl text-purple-600" />,
+      title: 'APIs',
+      description:
+        'APIs enable communication between systems. Product managers should understand API endpoints, data formats, and how APIs influence integrations and third-party services.',
+      sectionName: 'APIs'
+    },
+    {
+      icon: <FaDatabase className="text-4xl text-red-600" />,
+      title: 'Database',
+      description:
+        'Databases store and retrieve data. Knowing key database concepts helps product managers design data-driven features and work better with development teams.',
+      sectionName: 'Database'
+    },
+    {
+      icon: <FaLaptopCode className="text-4xl text-yellow-500" />,
+      title: 'Porters 5 Forces Analysis for PMs',
+      description:
+        'Porter’s Five Forces helps product managers analyze market competition, buyer power, supplier power, the threat of substitutes, and barriers to entry. Understanding these forces aids in strategic decision-making.',
+      sectionName: 'Porters'
+    },
+
+
+    {
+      icon: <FaLaptopCode className="text-4xl text-yellow-500" />,
+      title: 'Brainstorming Techniques',
+      description:
+        'Importance of Brainstorming Techniques',
+      sectionName: 'Brainstorming'
+    },
+  ];
+
+  // UseEffect to show a toast notification when the component is mounted
   useEffect(() => {
-    fetchMentees();
-  }, [fetchMentees]);
-  useEffect(() => {
-    fetchMentees();
-  }, [fetchMentees]); // Now useEffect has a stable function dependency
+    toast.info('Welcome to the Dashboard! Here are some key concepts to explore.');
+  }, []);
+
+  // Toggle Section Handler
+  const toggleSection = (sectionName) => {
+    setActiveSection(sectionName);
+  };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center p-4">
-        <Dashboard/>
-      {/* Navigation Bar */}
-   
+    <div className="p-6">
+      <h1 className="text-3xl font-bold bg-blue-100 items-center mb-2">
+        Masterclass: Understanding Databases, Frontend, Backend, and APIs as a Product Manager
+      </h1>
 
-      {/* Hero Section */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-800 mb-4">Welcome to Mentee Management</h1>
-        <p className="text-lg text-gray-600">Manage and track your mentees in a simple and intuitive way.</p>
+      {/* Toggle Buttons */}
+      <div className="mb-6">
+        {cardData.map((card, index) => (
+          <button
+            key={index}
+            onClick={() => toggleSection(card.sectionName)}
+            className={`mr-4 mb-4 px-6 py-2 rounded-full ${
+              activeSection === card.sectionName
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-300'
+            }`}
+          >
+            {card.title}
+          </button>
+        ))}
       </div>
 
-      {/* Mentee Management Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-        <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-blue-800 mb-4">Manage Mentees</h3>
-          <p className="text-gray-600 mb-4">View all your mentees and track their progress.</p>
-          <Link 
-            to="/mentees" 
-            className="block bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg text-center hover:bg-blue-600 transition-colors duration-300"
-          >
-            Go to Mentees Dashboard
-          </Link>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-blue-800 mb-4">Add a Mentee</h3>
-          <p className="text-gray-600 mb-4">Easily add new mentees to your management system.</p>
-          <Link 
-            to="/add-mentee" 
-            className="block bg-green-500 text-white font-semibold py-2 px-4 rounded-lg text-center hover:bg-green-600 transition-colors duration-300"
-          >
-            Add Mentee
-          </Link>
-        </div>
+      {/* Card Content */}
+      <div>
+        {activeSection === 'Frontend' && <FrontendSection />}
+        {activeSection === 'Backend' && <BackendSection />}
+        {activeSection === 'APIs' && <APISection />}
+        {activeSection === 'Database' && <DatabaseSection />}
+        {activeSection === 'Porters' && <Porters />}
+        {activeSection === 'SystemArchitecture' && <SystemArchitectureSection />}
+        {activeSection === 'Brainstorming' && <BrainstormingTechniques />}
+        {activeSection === 'QA' && <QASection />}
+        {activeSection === 'QA' && <QASection />}
       </div>
-
-      {/* Optionally display mentees */}
-      {/* mentees.map() logic can go here */}
     </div>
   );
 };
 
-export default HomePage;
+export default Dashboard;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaNetworkWired, FaCodeBranch } from 'react-icons/fa';
 import StatusCodes from './StatusCodes';
+import MenteeDB from './MenteeDB'; // Import the MenteeDB component
 
 const APISection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -233,7 +234,9 @@ const APISection = () => {
           </div>
         </div>
       )}
+        <MenteeDB/>
     </div>
+  
   );
 };
 
