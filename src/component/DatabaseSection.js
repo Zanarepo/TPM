@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { FaDatabase, FaTable } from 'react-icons/fa';
+import Database2 from './Database2'; // Assuming Database2 is in the same directory
+import DatabaseSimulator from './DatabaseSimulator'; // Assuming DatabaseSimulator is in the same directory
+//import PKFKSimulator from './PKFKSimulator'; // Assuming PKFKSimulator is in the same directory
+import DatabaseSimulator2 from './DatabaseSimulator2'; // Assuming DatabaseSimulator is in the same directory
 
 const DatabaseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -113,6 +117,13 @@ const DatabaseSection = () => {
           </div>
         </div>
       )}
+      <Database2 /> <br/>
+
+      <DatabaseSimulator /> {/* Include the DatabaseSimulator component here */} <br/>
+
+     {/* <PKFKSimulator />  Include the PKFKSimulator component here */} <br/>
+
+      <DatabaseSimulator2 /> {/* Include the DatabaseSimulator component here */}
     </div>
   );
 };
