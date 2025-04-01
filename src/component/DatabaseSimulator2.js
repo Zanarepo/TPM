@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-// An initial structure for a new column definition.
-// Note: We now include an optional "fkReference" string.
+// An initial structure for a new column definition
 const initialColumn = {
   name: "",
   type: "text",
@@ -9,17 +8,34 @@ const initialColumn = {
   isForeignKey: false,
   isNotNull: false,
   isUnique: false,
-  fkReference: "",
+  // For FK columns, the reference details:
+  referenceTable: "",
+  referenceColumn: "",
 };
 
 function DatabaseSimulator() {
-  // Global state for created tables.
+  // Global state for created tables
   const [tables, setTables] = useState([]);
-  // State for table creation form.
+  // State for table creation form
   const [tableName, setTableName] = useState("");
   const [columns, setColumns] = useState([{ ...initialColumn }]);
+  // State to manage which FK column (if any) is currently selecting its reference
+  const [activeFKColumnIndex, setActiveFKColumnIndex] = useState(null);
 
-  // Handlers for managing column inputs.
+  // Helper: Get list of available PK references from already created tables.
+  const getPossibleReferences = () => {
+    const refs = [];
+    tables.forEach((tbl) => {
+      tbl.columns.forEach((col) => {
+        if (col.isPrimaryKey) {
+          refs.push({ table: tbl.name, column: col.name });
+        }
+      });
+    });
+    return refs;
+  };
+
+  // Handlers for column input list management
   const addColumnInput = () => {
     setColumns([...columns, { ...initialColumn }]);
   };
@@ -35,11 +51,11 @@ function DatabaseSimulator() {
     setColumns(updated);
   };
 
-  // Toggle a checkbox flag (PK, FK, Unique, NotNull).
+  // Toggle a checkbox flag (PK, Unique, NotNull)
   const toggleColumnFlag = (index, flag) => {
     const updated = columns.map((col, i) => {
       if (i === index) {
-        // For Primary Key: only one per table allowed.
+        // For PK, enforce only one per table
         if (flag === "isPrimaryKey" && !col.isPrimaryKey) {
           return { ...col, isPrimaryKey: true };
         }
@@ -47,7 +63,6 @@ function DatabaseSimulator() {
       }
       return col;
     });
-    // Enforce only one primary key per table.
     if (flag === "isPrimaryKey") {
       const pkIndex = updated.findIndex((c) => c.isPrimaryKey);
       setColumns(
@@ -61,7 +76,31 @@ function DatabaseSimulator() {
     }
   };
 
-  // Save the new table after validating table and column details.
+  // Toggle FK flag; when turned off, clear reference info.
+  const handleFKToggle = (index) => {
+    const updated = columns.map((col, i) => {
+      if (i === index) {
+        if (col.isForeignKey) {
+          return { ...col, isForeignKey: false, referenceTable: "", referenceColumn: "" };
+        } else {
+          return { ...col, isForeignKey: true };
+        }
+      }
+      return col;
+    });
+    setColumns(updated);
+  };
+
+  // When the FK modal reference is selected, update the column and close modal.
+  const selectFKReference = (refTable, refColumn) => {
+    if (activeFKColumnIndex !== null) {
+      handleColumnChange(activeFKColumnIndex, "referenceTable", refTable);
+      handleColumnChange(activeFKColumnIndex, "referenceColumn", refColumn);
+      setActiveFKColumnIndex(null);
+    }
+  };
+
+  // Save the new table. Validate table and column details.
   const saveTable = () => {
     if (!tableName.trim()) {
       alert("Please enter a table name.");
@@ -72,9 +111,9 @@ function DatabaseSimulator() {
         alert("Please ensure all columns have names.");
         return;
       }
-      if (col.isForeignKey && !col.fkReference.trim()) {
+      if (col.isForeignKey && (!col.referenceTable || !col.referenceColumn)) {
         alert(
-          `Foreign Key field "${col.name}" must have a reference table name.`
+          `Foreign Key field "${col.name}" must reference a primary key from an existing table.`
         );
         return;
       }
@@ -84,7 +123,7 @@ function DatabaseSimulator() {
       id: Date.now(),
       name: tableName,
       columns,
-      records: [], // to hold inserted rows
+      records: [],
     };
 
     setTables([...tables, newTable]);
@@ -92,7 +131,7 @@ function DatabaseSimulator() {
     setColumns([{ ...initialColumn }]);
   };
 
-  // Update a table in the global state (used in record-level operations).
+  // Update table in global state (for record-level operations)
   const updateTable = (updatedTable) => {
     setTables(tables.map((tbl) => (tbl.id === updatedTable.id ? updatedTable : tbl)));
   };
@@ -102,7 +141,7 @@ function DatabaseSimulator() {
     setTables(tables.filter((tbl) => tbl.id !== tableId));
   };
 
-  // Explanation text for database constraints.
+  // Simple explanation component for constraints
   const explanationText = () => (
     <div className="p-4 bg-blue-50 rounded mb-6">
       <h3 className="font-bold text-lg mb-2">Database Constraints Explanation</h3>
@@ -110,7 +149,7 @@ function DatabaseSimulator() {
         <strong>Primary Key (PK):</strong> A unique identifier for each record. Only one per table.
       </p>
       <p>
-        <strong>Foreign Key (FK):</strong> A field that links to another table. In this simulation, simply write the name of the referenced table.
+        <strong>Foreign Key (FK):</strong> A field that links to a primary key in another table, creating a relationship.
       </p>
       <p>
         <strong>Unique:</strong> Ensures all values in a column are distinct.
@@ -187,7 +226,7 @@ function DatabaseSimulator() {
                   <input
                     type="checkbox"
                     checked={col.isForeignKey}
-                    onChange={() => toggleColumnFlag(index, "isForeignKey")}
+                    onChange={() => handleFKToggle(index)}
                     className="form-checkbox"
                   />
                   <span className="text-sm">Foreign Key (FK)</span>
@@ -219,21 +258,24 @@ function DatabaseSimulator() {
                   </button>
                 )}
               </div>
-              {/* For FK columns, show an input to type the reference table name */}
               {col.isForeignKey && (
-                <div className="mt-2">
-                  <label className="block text-sm font-medium">
-                    Foreign Key Reference (table name):
-                  </label>
-                  <input
-                    type="text"
-                    value={col.fkReference || ""}
-                    onChange={(e) =>
-                      handleColumnChange(index, "fkReference", e.target.value)
-                    }
-                    placeholder="e.g., Orders"
-                    className="w-full p-2 border rounded focus:outline-none focus:ring"
-                  />
+                <div className="mt-3 border-t pt-3">
+                  <p className="text-sm font-medium mb-1">
+                    FK Reference:
+                  </p>
+                  {col.referenceTable && col.referenceColumn ? (
+                    <p className="text-sm">
+                      Linked to: {col.referenceTable}.{col.referenceColumn}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-gray-500">No reference selected.</p>
+                  )}
+                  <button
+                    onClick={() => setActiveFKColumnIndex(index)}
+                    className="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                  >
+                    Link Reference
+                  </button>
                 </div>
               )}
             </div>
@@ -253,6 +295,43 @@ function DatabaseSimulator() {
         </button>
       </div>
 
+      {/* FK Modal */}
+      {activeFKColumnIndex !== null && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded p-6 w-80">
+            <h3 className="text-xl font-bold mb-4">
+              Select a PK Reference
+            </h3>
+            {getPossibleReferences().length > 0 ? (
+              <ul>
+                {getPossibleReferences().map((ref, idx) => (
+                  <li key={idx}>
+                    <button
+                      onClick={() =>
+                        selectFKReference(ref.table, ref.column)
+                      }
+                      className="w-full text-left px-3 py-2 hover:bg-blue-100 rounded"
+                    >
+                      {ref.table}.{ref.column}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-gray-500">
+                No available PK references.
+              </p>
+            )}
+            <button
+              onClick={() => setActiveFKColumnIndex(null)}
+              className="mt-4 px-4 py-2 bg-gray-500 text-white rounded"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Display Created Tables with CRUD Operations */}
       <div>
         <h2 className="text-2xl font-semibold mb-4">Database Tables</h2>
@@ -263,6 +342,7 @@ function DatabaseSimulator() {
             <TableSimulator
               key={tbl.id}
               table={tbl}
+              globalTables={tables}
               updateTable={updateTable}
               deleteTable={deleteTable}
             />
@@ -273,20 +353,20 @@ function DatabaseSimulator() {
   );
 }
 
-// Component for simulating CRUD operations on each table.
-function TableSimulator({ table, updateTable, deleteTable }) {
-  // State for adding a new record.
+// Component to simulate CRUD operations for each table
+function TableSimulator({ table, globalTables, updateTable, deleteTable }) {
+  // State for adding a new record
   const initialRecordState = table.columns.reduce((acc, col) => {
     acc[col.name] = "";
     return acc;
   }, {});
   const [newRecord, setNewRecord] = useState({ ...initialRecordState });
-  // State for editing an existing record.
+  // State for editing an existing record (by id)
   const [editingRecordId, setEditingRecordId] = useState(null);
   const [editingRecordData, setEditingRecordData] = useState({});
 
   const handleAddRecord = () => {
-    // Validate Not Null fields.
+    // Validate Not Null fields
     for (let col of table.columns) {
       if (col.isNotNull && !newRecord[col.name].toString().trim()) {
         alert(`Column "${col.name}" is Not Null and requires a value.`);
@@ -333,6 +413,18 @@ function TableSimulator({ table, updateTable, deleteTable }) {
     updateTable({ ...table, records: updatedRecords });
   };
 
+  // Helper: For FK columns, get available primary key options from the referenced table.
+  const getFKOptions = (col) => {
+    const refTable = globalTables.find((t) => t.name === col.referenceTable);
+    if (refTable) {
+      const pkColumn = refTable.columns.find((c) => c.isPrimaryKey);
+      if (pkColumn) {
+        return refTable.records.map((record) => record[pkColumn.name]);
+      }
+    }
+    return [];
+  };
+
   return (
     <div className="mb-8 bg-white p-6 rounded shadow">
       <div className="flex justify-between items-center mb-4">
@@ -349,11 +441,7 @@ function TableSimulator({ table, updateTable, deleteTable }) {
           <thead className="bg-gray-200">
             <tr>
               {table.columns.map((col, idx) => (
-                <th key={idx} className="px-4 py-2 border">
-                  {col.name}
-                  {col.isPrimaryKey && " (PK)"}
-                  {col.isForeignKey && col.fkReference && ` (FK: ${col.fkReference})`}
-                </th>
+                <th key={idx} className="px-4 py-2 border">{col.name}</th>
               ))}
               <th className="px-4 py-2 border">Actions</th>
             </tr>
@@ -364,14 +452,31 @@ function TableSimulator({ table, updateTable, deleteTable }) {
                 {table.columns.map((col, idx) => (
                   <td key={idx} className="px-4 py-2 border">
                     {editingRecordId === record.id ? (
-                      <input
-                        type="text"
-                        value={editingRecordData[col.name] || ""}
-                        onChange={(e) =>
-                          handleEditChange(col.name, e.target.value)
-                        }
-                        className="p-1 border rounded"
-                      />
+                      col.isForeignKey ? (
+                        <select
+                          value={editingRecordData[col.name] || ""}
+                          onChange={(e) =>
+                            handleEditChange(col.name, e.target.value)
+                          }
+                          className="p-1 border rounded"
+                        >
+                          <option value="">-- Select --</option>
+                          {getFKOptions(col).map((option, i) => (
+                            <option key={i} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          value={editingRecordData[col.name] || ""}
+                          onChange={(e) =>
+                            handleEditChange(col.name, e.target.value)
+                          }
+                          className="p-1 border rounded"
+                        />
+                      )
                     ) : (
                       record[col.name]
                     )}
@@ -416,15 +521,35 @@ function TableSimulator({ table, updateTable, deleteTable }) {
             <tr>
               {table.columns.map((col, idx) => (
                 <td key={idx} className="px-4 py-2 border">
-                  <input
-                    type="text"
-                    placeholder={col.name}
-                    value={newRecord[col.name] || ""}
-                    onChange={(e) =>
-                      setNewRecord({ ...newRecord, [col.name]: e.target.value })
-                    }
-                    className="p-1 border rounded"
-                  />
+                  {col.isForeignKey ? (
+                    <select
+                      value={newRecord[col.name] || ""}
+                      onChange={(e) =>
+                        setNewRecord({
+                          ...newRecord,
+                          [col.name]: e.target.value,
+                        })
+                      }
+                      className="p-1 border rounded"
+                    >
+                      <option value="">-- Select --</option>
+                      {getFKOptions(col).map((option, i) => (
+                        <option key={i} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder={col.name}
+                      value={newRecord[col.name] || ""}
+                      onChange={(e) =>
+                        setNewRecord({ ...newRecord, [col.name]: e.target.value })
+                      }
+                      className="p-1 border rounded"
+                    />
+                  )}
                 </td>
               ))}
               <td className="px-4 py-2 border">

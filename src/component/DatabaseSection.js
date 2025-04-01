@@ -4,6 +4,7 @@ import Database2 from './Database2'; // Assuming Database2 is in the same direct
 import DatabaseSimulator from './DatabaseSimulator'; // Assuming DatabaseSimulator is in the same directory
 //import PKFKSimulator from './PKFKSimulator'; // Assuming PKFKSimulator is in the same directory
 import DatabaseSimulator2 from './DatabaseSimulator2'; // Assuming DatabaseSimulator is in the same directory
+import Nosqldatabase from './Nosqldatabase'; // Assuming Nosqldatabase is in the same directory
 
 const DatabaseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -123,7 +124,9 @@ const DatabaseSection = () => {
 
      {/* <PKFKSimulator />  Include the PKFKSimulator component here */} <br/>
 
-      <DatabaseSimulator2 /> {/* Include the DatabaseSimulator component here */}
+      <DatabaseSimulator2 /> {/* Include the DatabaseSimulator component here */} <br/>
+
+      <Nosqldatabase /> {/* Include the Nosqldatabase component here */} <br/>
     </div>
   );
 };
