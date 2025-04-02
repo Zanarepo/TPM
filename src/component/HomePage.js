@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaTools, FaChartLine, FaTachometerAlt, FaUsers } from 'react-icons/fa';
+import CourseOutlines from './CourseOutlines'; // Assuming you have a CourseOutlines component
 
 const Homepage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
+      {/* Course Outlines Section */}
+      <CourseOutlines /> {/* Include the CourseOutlines component here */}
+      {/* Course Description Section */}
+      
       {/* Introductory Header */}
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-blue-800 mb-4">
