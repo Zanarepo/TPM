@@ -7,9 +7,9 @@ const Homepage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       {/* Course Outlines Section */}
-      <CourseOutlines /> {/* Include the CourseOutlines component here */}
+    
       {/* Course Description Section */}
-      
+
       {/* Introductory Header */}
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-blue-800 mb-4">
@@ -18,7 +18,10 @@ const Homepage = () => {
         <p className="text-lg text-gray-700 max-w-2xl mx-auto">
           Explore a series of lessons designed to enhance your product management skills. In these lessons, you'll learn about databases, agile methodologies, cost management, and product analytics—all critical topics for any Product Manager.
         </p>
-      </header>
+      </header> <br/>
+      <div className="max-w-5xl mx-auto mb-12">
+        <CourseOutlines />
+      </div>  
       {/* Lesson Tiles */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         <Link to="/tpm" className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
