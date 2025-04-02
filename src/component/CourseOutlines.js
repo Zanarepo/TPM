@@ -69,8 +69,7 @@ function App() {
           <ul className="list-disc ml-5">
             <li>Create a simple HTML page with CSS styling.</li>
             <li>Push code to GitHub and deploy using Netlify.</li>
-            <li>Research and compare MySQL, PostgreSQL, and MongoDB.</li>
-            <li>Write basic SQL queries for a sample database.</li>
+            
           </ul>
         </div>
       )
