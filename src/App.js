@@ -34,6 +34,10 @@ import GenDashbaord from './component/GenDashboard/GenDashbaord'
 import BlueOceanStrategy from './component/BlueOceanStrategy'
 import SprintSimulator from './component/SprintSimulator'
 import Simulate from './component/Version Control/Simulate'
+import Dashboard4 from './component/Contents/Dashboard4'
+import PRD from './component/InternPulsePRDClass'
+import Dashboard5 from './component/Dashboard5'
+import Inventory from './component/Inventory'
 
 const App = () => {
   return (
@@ -76,8 +80,11 @@ const App = () => {
         <Route path="/gendash" element={<GenDashbaord/>} />
         <Route path="/blue" element={<  BlueOceanStrategy/>} />
         <Route path="/sprints" element={<  SprintSimulator/>} />
-     
+        <Route path="/dashboard4" element={<Dashboard4/>} />
         <Route path="/simulate" element={<Simulate/>} />
+        <Route path="/prd" element={<PRD/>} />
+        <Route path="/dashboard5" element={<Dashboard5/>} />
+        <Route path="/inventory" element={<Inventory/>} />
        
         
         

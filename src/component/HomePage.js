@@ -31,6 +31,7 @@ const Homepage = () => {
             Masterclass: Understanding Databases, Frontend, Backend, and APIs as a Product Manager
           </h4>
         </Link>
+
         <Link to="/dashboard2" className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
           <FaChartLine size={48} className="text-green-500 mb-4" />
           <h3 className="text-2xl font-semibold mb-2">Lesson 2</h3>
@@ -38,6 +39,7 @@ const Homepage = () => {
             Understanding Agile, Cost Management, Databases, and More as a Product Manager
           </h4>
         </Link>
+
         <Link to="/dashboard" className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
           <FaTachometerAlt size={48} className="text-purple-500 mb-4" />
           <h3 className="text-2xl font-semibold mb-2">Lesson 3</h3>
@@ -45,6 +47,7 @@ const Homepage = () => {
             Understanding Various Technologies as a Product Manager
           </h4>
         </Link>
+
         <Link to="/Dashboard3" className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
           <FaUsers size={48} className="text-red-500 mb-4" />
           <h3 className="text-2xl font-semibold mb-2">Lesson 4</h3>
@@ -52,6 +55,16 @@ const Homepage = () => {
             Understanding Product Analytics
           </h4>
         </Link>
+
+        <Link to="/Dashboard4" className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+          <FaUsers size={48} className="text-red-500 mb-4" />
+          <h3 className="text-2xl font-semibold mb-2">Lesson 5</h3>
+          <h4 className="text-center text-gray-600">
+           Syllabus: PM Distilled
+          </h4>
+        </Link>
+
+
       </div>
     </div>
   );

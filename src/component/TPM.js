@@ -9,6 +9,11 @@ import QASection from './QASection';
 import Porters from './Porters';
 import SystemArchitectureSection from './SystemArchitectureSection';
 import BrainstormingTechniques from './BrainstormingTechniques'
+import Dashboard5 from './Dashboard5';
+
+
+
+
 
 const Dashboard = () => {
   // State for toggling sections
@@ -45,6 +50,18 @@ const Dashboard = () => {
         'Databases store and retrieve data. Knowing key database concepts helps product managers design data-driven features and work better with development teams.',
       sectionName: 'Database'
     },
+
+    {
+      icon: <FaDatabase className="text-4xl text-red-600" />,
+      title: 'Business Requirements Document (BRD)',
+      description:
+        'Product strategy is the roadmap for product development. It includes market analysis, competitive landscape, and aligning product goals with business objectives.',
+      sectionName: 'Dashboard5'
+   
+    },
+
+
+
     {
       icon: <FaLaptopCode className="text-4xl text-yellow-500" />,
       title: 'Porters 5 Forces Analysis for PMs',
@@ -106,7 +123,8 @@ const Dashboard = () => {
         {activeSection === 'SystemArchitecture' && <SystemArchitectureSection />}
         {activeSection === 'Brainstorming' && <BrainstormingTechniques />}
         {activeSection === 'QA' && <QASection />}
-        {activeSection === 'QA' && <QASection />}
+        {activeSection === 'Dashboard5' && <Dashboard5 />}
+       
       </div>
     </div>
   );

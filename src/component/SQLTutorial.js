@@ -83,7 +83,7 @@ VALUES
         <pre style={codeBlockStyle}>
           {`UPDATE employees
 SET salary = 80000
-WHERE name = 'Alice Johnson';`}
+WHERE name = 'Chioma';`}
         </pre>
       </div>
 
