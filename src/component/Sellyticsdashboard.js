@@ -532,7 +532,7 @@ const SellyticsDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-0">
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold text-gray-800">Sellytics Dashboard</h1>
         <p className="text-lg text-gray-600 mt-2">Explore Sellytics’ Product Strategy, Roadmap, and PRD</p>
