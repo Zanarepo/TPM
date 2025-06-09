@@ -36,8 +36,13 @@ import SprintSimulator from './component/SprintSimulator'
 import Simulate from './component/Version Control/Simulate'
 import Dashboard4 from './component/Contents/Dashboard4'
 import PRD from './component/InternPulsePRDClass'
+import InternPulsePRDClass from './component/InternPulsePRDClass'
 import Dashboard5 from './component/Dashboard5'
 import Inventory from './component/Inventory'
+import SellyticsPS from './component/SellyticsPS';
+import SellyticsRM from './component/SellyticsRM';
+import SellyticsPRD from './component/SellyticsPRD';
+import Sellyticsdashboard from './component/Sellyticsdashboard'
 
 const App = () => {
   return (
@@ -85,6 +90,19 @@ const App = () => {
         <Route path="/prd" element={<PRD/>} />
         <Route path="/dashboard5" element={<Dashboard5/>} />
         <Route path="/inventory" element={<Inventory/>} />
+        <Route path="/internpulseprd" element={<InternPulsePRDClass/>} />
+        <Route path="/ps" element={<SellyticsPS/>} />
+        <Route path="/rm" element={<SellyticsRM/>} />
+        <Route path="/prdsell" element={<SellyticsPRD/>} />
+         <Route path="/sellytics" element={<Sellyticsdashboard/>} />
+        
+
+        
+
+
+
+        
+        {/* Add more routes as needed */}
        
         
         
