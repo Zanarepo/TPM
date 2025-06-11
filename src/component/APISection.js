@@ -81,7 +81,7 @@ const APISection = () => {
               <p className="text-gray-700">Fetch a user's details by ID:</p>
               <div className="bg-black text-white p-4 rounded-md">
                 <code>
-                  <strong>GET</strong> http://localhost:5000/api/mentees/1
+                  <strong>GET</strong> http://localhost:5000/api/users/1
                 </code>
                 <br />
                 <span>Response:</span>
