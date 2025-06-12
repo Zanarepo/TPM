@@ -43,6 +43,7 @@ import SellyticsPS from './component/SellyticsPS';
 import SellyticsRM from './component/SellyticsRM';
 import SellyticsPRD from './component/SellyticsPRD';
 import Sellyticsdashboard from './component/Sellyticsdashboard'
+import GrowthTools from './GrowthTools'
 
 const App = () => {
   return (
@@ -95,6 +96,9 @@ const App = () => {
         <Route path="/rm" element={<SellyticsRM/>} />
         <Route path="/prdsell" element={<SellyticsPRD/>} />
          <Route path="/sellytics" element={<Sellyticsdashboard/>} />
+         <Route path="/gt" element={<GrowthTools/>} />
+         
+
         
 
         
