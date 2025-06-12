@@ -37,6 +37,16 @@
   m.mazeUniversalSnippetApiKey = e;
 })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '8b28f310-2892-4ee6-bb08-6d0d2456cf27');
 </script>
+
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "6879a976-a8cb-42f9-8c0a-3cc0b30b6e1b",
+    });
+  });
+</script>
     <title>Technical PM Hands-on Tools</title>
   </head>
   <body>
