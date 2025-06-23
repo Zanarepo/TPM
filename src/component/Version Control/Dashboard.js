@@ -9,6 +9,7 @@ import SecuritySection from './Security';
 import LoadBalancingComponent from './LoadBalancingComponent';
 import DataPipeline from './DataPipeline';
 import BEArchitecture from './BEArchitecture';
+ // Assuming this is a component for cloud dashboard
 import Timer from './Timer';  // Timer component
 
 const Dashboard = () => {
@@ -53,6 +54,12 @@ const Dashboard = () => {
       description: 'Backend architecture is the foundation for robust, scalable systems.',
       section: 'bearchitecture',
     },
+
+
+
+
+
+   
   ];
 
   // Handle section change and start/stop timer
@@ -100,6 +107,7 @@ const Dashboard = () => {
       {activeSection === 'loadbalancing' && <LoadBalancingComponent onStop={handleStopTimer} />}
       {activeSection === 'datapipeline' && <DataPipeline onStop={handleStopTimer} />}
       {activeSection === 'bearchitecture' && <BEArchitecture onStop={handleStopTimer} />}
+      
     </div>
   );
 };

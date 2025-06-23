@@ -45,6 +45,8 @@ import SellyticsPRD from './component/SellyticsPRD';
 import Sellyticsdashboard from './component/Sellyticsdashboard'
 import GrowthTools from './GrowthTools'
 
+import Clouddashboard from './component/Clouddashboard';
+
 const App = () => {
   return (
     <Router>
@@ -97,6 +99,8 @@ const App = () => {
         <Route path="/prdsell" element={<SellyticsPRD/>} />
          <Route path="/sellytics" element={<Sellyticsdashboard/>} />
          <Route path="/gt" element={<GrowthTools/>} />
+       
+        <Route path="/cloud" element={<Clouddashboard/>} />
          
 
         
