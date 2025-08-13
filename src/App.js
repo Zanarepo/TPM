@@ -44,6 +44,8 @@ import SellyticsRM from './component/SellyticsRM';
 import SellyticsPRD from './component/SellyticsPRD';
 import Sellyticsdashboard from './component/Sellyticsdashboard'
 import GrowthTools from './GrowthTools'
+import VMs from './component/VMs';
+import PMDocuments from './component/PMDocuments'
 
 import Clouddashboard from './component/Clouddashboard';
 
@@ -101,6 +103,9 @@ const App = () => {
          <Route path="/gt" element={<GrowthTools/>} />
        
         <Route path="/cloud" element={<Clouddashboard/>} />
+        <Route path="/vms" element={<VMs/>} />
+        <Route path="/pmd" element={<PMDocuments/>} />
+        
          
 
         
